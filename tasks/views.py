@@ -5,11 +5,33 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError as DRFValidationError
+from .services import accept_task
 
 import tasks
 from iam.models import User
 from tasks.models import Task
 from tasks.serializers import TaskSerializer, TaskCreateSerializer
+
+
+class TaskAcceptView(APIView):
+    """POST /api/tasks/{id}/accept/"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, id):
+        user = request.user
+        if user.role != User.Role.CONTRACTOR:
+            raise PermissionDenied("Only contractors can accept tasks")
+
+        task = get_object_or_404(Task, id=id)
+
+        try:
+            task = accept_task(task,user)
+        except ValueError as e:
+            raise DRFValidationError(str(e))
+
+        return Response(TaskSerializer(task).data)
 
 
 class TaskListCreateView(generics.ListCreateAPIView):
