@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет: Modular Monolith Payouts System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f2f5;
+            padding: 2rem;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            padding: 2.5rem;
+        }
+
+        /* Типографика */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #3b82f6;
+            display: inline-block;
+            color: #0f172a;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        /* Таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: #1e293b;
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        td {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Карточки и блоки */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
+        }
+
+        .card strong {
+            color: #3b82f6;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-right: 0.5rem;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .roadmap-item {
+            background: #ffffff;
+            border-left: 5px solid #3b82f6;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+
+        .roadmap-item strong {
+            font-size: 1.2rem;
+            color: #0f172a;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-item ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .workflow {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 24px;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .highlight {
+            background: #fef9c3;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .report-container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="report-container">
+    <h1>🏗️ Отчет по проекту: Modular Monolith Payouts System</h1>
+
+    <h2>1. Обзор архитектуры</h2>
+    <p>Приложение построено по принципу <strong>Modular Monolith</strong> на современном стеке <strong>Django 6.0</strong> + <strong>Django Rest Framework</strong>.
+        Каждый бизнес-домен вынесен в отдельное Django-приложение (модуль), что позволяет в будущем легко перейти к микросервисам или поддерживать строгую изоляцию логики.</p>
+
+    <h3>🧩 Основные модули (Apps)</h3>
+    <table>
+        <thead>
+            <tr><th>Модуль</th><th>Назначение</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>iam</code></td><td>Управление пользователями, ролями и компаниями (Identity and Access Management).</td></tr>
+            <tr><td><code>contracts</code></td><td>Управление контрактами, шаблонами и процессом подписания.</td></tr>
+            <tr><td><code>tasks</code></td><td>Управление задачами, назначение исполнителей и связь с контрактами.</td></tr>
+            <tr><td><code>payments</code></td><td><span class="badge">Заготовка</span> Будет отвечать за выплаты и счета.</td></tr>
+            <tr><td><code>notifications</code></td><td><span class="badge">Заготовка</span> Центр уведомлений.</td></tr>
+            <tr><td><code>submissions</code></td><td><span class="badge">Заготовка</span> Сдача и ревью работ.</td></tr>
+            <tr><td><code>documents</code></td><td><span class="badge">Заготовка</span> Генерация PDF и хранение файлов.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. Имеющийся функционал и логика</h2>
+
+    <h3>🔐 А. Управление пользователями и ролями (<code>iam</code>)</h3>
+    <ul>
+        <li><strong>Ролевая модель</strong>: Реализованы роли: <span class="badge badge-blue">Admin</span> <span class="badge badge-blue">Manager</span> <span class="badge badge-blue">Accountant</span> <span class="badge badge-blue">Contractor</span>.</li>
+        <li><strong>Компании (Multi-tenancy)</strong>: Пользователи (кроме системных админов) привязаны к <code>Company</code>. Это обеспечивает полную изоляцию данных между разными организациями.</li>
+        <li><strong>Аутентификация</strong>: Используется <strong>JWT</strong> (<code>djangorestframework-simplejwt</code>) для защиты API.</li>
+    </ul>
+
+    <h3>⚙️ Б. Жизненный цикл задачи (<code>tasks</code>)</h3>
+    <ol>
+        <li><strong>Создание</strong>: Менеджер компании создает задачу (<code>Task</code>) с указанием бюджета и описания.</li>
+        <li><strong>Поиск</strong>: Исполнители (<code>Contractor</code>) видят список доступных задач своей компании.</li>
+        <li><strong>Принятие (Accept)</strong>:
+            <ul>
+                <li>Когда исполнитель принимает задачу, срабатывает бизнес-логика в <code>tasks/services.py</code>.</li>
+                <li>Если у задачи нет привязанного контракта, система <strong>автоматически</strong> создает контракт на основе шаблона компании.</li>
+                <li>Статус задачи меняется на <code>Accepted</code>.</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>📄 В. Система контрактов (<code>contracts</code>)</h3>
+    <ul>
+        <li><strong>Шаблоны</strong>: Компании могут создавать <code>ContractTemplate</code> с текстом договора.</li>
+        <li><strong>Генерация номеров</strong>: Реализован сервис автоматической генерации номеров контрактов (Формат: <code>CMP{id}-{year}-{sequence}</code>).</li>
+        <li><strong>Подписание</strong>: Реализован Endpoint для подписания контракта исполнителем. Только после подписания контракт считается юридически значимым в системе.</li>
+    </ul>
+
+    <h2>3. Логика приложения (Workflow)</h2>
+    <div class="workflow">
+        🚀 <strong>Ключевая "фишка" текущей реализации — автоматизация бюрократии.</strong><br><br>
+        Как только исполнитель нажимает <strong>"Принять задачу"</strong>, система берет на себя создание юридических документов.<br>
+        Это исключает работу "без договора", ускоряет процесс взаимодействия между заказчиком (Company) и исполнителем (Contractor).
+    </div>
+
+    <div class="card-grid">
+        <div class="card"><strong>👔 Менеджер</strong> → Создает задачу</div>
+        <div class="card"><strong>🧑‍💻 Исполнитель</strong> → Принимает задачу</div>
+        <div class="card"><strong>⚙️ Система</strong> → Автоматически создает контракт</div>
+        <div class="card"><strong>✍️ Исполнитель</strong> → Подписывает контракт</div>
+        <div class="card"><strong>💰 Модуль Payments</strong> → Готов к оплате</div>
+    </div>
+
+    <h2>4. Будущие нововведения (Roadmap)</h2>
+    <p>На основе анализа пустых модулей и структуры проекта, планируется следующий функционал:</p>
+
+    <div class="roadmap-item">
+        <strong>📂 1. submissions (Сдача работ)</strong>
+        <ul>
+            <li>Загрузка отчетов о выполненной работе.</li>
+            <li>Процесс ревью: Приемка / Отклонение результата менеджером.</li>
+        </ul>
+    </div>
+
+    <div class="roadmap-item">
+        <strong>💳 2. payments (Выплаты)</strong>
+        <ul>
+            <li>Интеграция с платежными шлюзами (Stripe, ЮKassa и др.).</li>
+            <li>Автоматическое формирование счетов после одобрения submission.</li>
+            <li>Отслеживание статусов оплат.</li>
+        </ul>
+    </div>
+
+    <div class="roadmap-item">
+        <strong>📑 3. documents (Документооборот)</strong>
+        <ul>
+            <li>Генерация PDF-файлов на основе шаблонов (<code>ContractTemplate</code>).</li>
+            <li>Хранение подписанных документов в облачном хранилище (S3).</li>
+        </ul>
+    </div>
+
+    <div class="roadmap-item">
+        <strong>🔔 4. notifications (Уведомления)</strong>
+        <ul>
+            <li>Email / Telegram уведомления о новых задачах, подписании контрактов и поступлении оплаты.</li>
+        </ul>
+    </div>
+
+    <div class="roadmap-item">
+        <strong>📊 5. analytics (Аналитика) — предложение</strong>
+        <ul>
+            <li>Дашборды для бухгалтеров и менеджеров по расходам компании.</li>
+        </ul>
+    </div>
+
+    <footer>
+        Modular Monolith Payouts System — Гибкая архитектура для автоматизации выплат и контрактов.
+    </footer>
+</div>
+</body>
+</html>

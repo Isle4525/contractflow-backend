@@ -20,10 +20,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 
+from django.views.generic import TemplateView
+
 def health_check(request):
     return HttpResponse("OK")
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='review.html'), name='home'),
     path('health/', health_check),
     path('admin/', admin.site.urls),
     path('api/', include('iam.urls')),
