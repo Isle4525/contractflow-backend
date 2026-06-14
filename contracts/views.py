@@ -1,9 +1,4 @@
 from django.utils import timezone
-from gc import get_objects
-from xml.dom import ValidationErr
-
-from django.db.migrations import serializer
-from django.db.models import Model
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied, ValidationError
