@@ -108,11 +108,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', f"postgres://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@{os.getenv('DB_HOST', '127.0.0.1')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME')}"),
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
-        ssl_require=os.getenv('DB_SSL_REQUIRE', 'False') == 'True'
     )
 }
+
+# CSRF settings for Railway
+CSRF_TRUSTED_ORIGINS = []
+_hosts = os.getenv('ALLOWED_HOSTS')
+if _hosts and _hosts != '*':
+    CSRF_TRUSTED_ORIGINS = ['https://' + h.strip() for h in _hosts.split(',')]
+elif os.getenv('RAILWAY_PUBLIC_DOMAIN'):
+    CSRF_TRUSTED_ORIGINS = ['https://' + os.getenv('RAILWAY_PUBLIC_DOMAIN')]
 
 
 # Password validation
