@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -110,6 +110,15 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+
+# Force PostgreSQL engine if dj_database_url didn't set it (prevents 'dummy' engine error)
+if not DATABASES['default'].get('ENGINE'):
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    DATABASES['default']['NAME'] = os.getenv('DB_NAME', 'payout')
+    DATABASES['default']['USER'] = os.getenv('DB_USER', 'admin')
+    DATABASES['default']['PASSWORD'] = os.getenv('DB_PASS', '1234')
+    DATABASES['default']['HOST'] = os.getenv('DB_HOST', '127.0.0.1')
+    DATABASES['default']['PORT'] = os.getenv('DB_PORT', '5432')
 
 # CSRF settings for Railway
 CSRF_TRUSTED_ORIGINS = []
