@@ -1,6 +1,3 @@
-import email
-
-from django.db.models.fields.related_descriptors import create_reverse_many_to_one_manager
 from rest_framework import serializers
 from .models import User, Company
 

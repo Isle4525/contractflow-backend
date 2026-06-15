@@ -11,12 +11,15 @@ def setup_admin():
     password = '1234'
     email = 'admin@example.com'
     
-    if not User.objects.filter(username=username).exists():
-        print(f"Creating superuser {username}...")
-        User.objects.create_superuser(username=username, password=password, email=email, role='admin')
-        print("Superuser created successfully.")
-    else:
-        print(f"Superuser {username} already exists.")
+    try:
+        if not User.objects.filter(username=username).exists():
+            print(f"Creating superuser {username}...")
+            User.objects.create_superuser(username=username, password=password, email=email, role='admin')
+            print("Superuser created successfully.")
+        else:
+            print(f"Superuser {username} already exists.")
+    except Exception as e:
+        print(f"Error during superuser creation: {e}")
 
 if __name__ == "__main__":
     setup_admin()

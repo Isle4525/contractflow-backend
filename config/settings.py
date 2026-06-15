@@ -110,7 +110,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL', f"postgres://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@{os.getenv('DB_HOST', '127.0.0.1')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME')}"),
         conn_max_age=600,
-        ssl_require=not DEBUG
+        ssl_require=os.getenv('DB_SSL_REQUIRE', 'False') == 'True'
     )
 }
 
