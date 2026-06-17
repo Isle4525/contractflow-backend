@@ -63,6 +63,11 @@ CORS_ALLOWED_ORIGINS = [
     "https://happy-forgiveness-production-caca.up.railway.app",
 ]
 
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -108,15 +113,8 @@ if not DATABASES['default'].get('ENGINE'):
     DATABASES['default']['HOST'] = os.getenv('DB_HOST', '127.0.0.1')
     DATABASES['default']['PORT'] = os.getenv('DB_PORT', '5432')
 
-# CSRF settings for Railway
-CSRF_TRUSTED_ORIGINS = []
-_hosts = os.getenv('ALLOWED_HOSTS')
-if _hosts and _hosts != '*':
-    CSRF_TRUSTED_ORIGINS = ['https://' + h.strip() for h in _hosts.split(',')]
-elif os.getenv('RAILWAY_PUBLIC_DOMAIN'):
-    CSRF_TRUSTED_ORIGINS = ['https://' + os.getenv('RAILWAY_PUBLIC_DOMAIN')]
-
 # Password validation
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
