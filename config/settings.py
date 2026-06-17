@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://payouts-frontend-production.up.railway.app",
+    "https://happy-forgiveness-production-caca.up.railway.app",
 ]
 
 REST_FRAMEWORK = {
